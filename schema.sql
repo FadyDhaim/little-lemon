@@ -91,44 +91,16 @@ create table order_item
     constraint specifies_item foreign key (menuitem_id) references menuitem (menuitem_id) on delete cascade on update cascade
 );
 
+# describe order_item;
+# show indexes from order_item;
 
-
-create trigger if not exists after_delete_order_delivery_cleanup
-    after delete
-    on orders
-    for each row
-begin
-    if old.delivery_id is not null then
-        delete from delivery where delivery_id = old.delivery_id;
-    end if;
-end;
-
-create trigger if not exists after_delete_order_optional_booking_cleanup
-    after delete
-    on orders
-    for each row
-begin
-    declare order_count int;
-    if old.booking_id is not null then
-        select count(order_id) into order_count
-        from orders
-        where booking_id = old.booking_id;
-        if order_count = 0 then
-            delete from booking where booking_id = old.booking_id;
-        end if;
-    end if;
-end;
-
-describe order_item;
-show indexes from order_item;
-
-alter table order_item drop foreign key belongs_to_order;
-alter table order_item drop foreign key specifies_item;
-
-alter table order_item
-    add constraint belongs_to_order
-        foreign key (order_id) references orders (order_id)
-            on delete cascade on update cascade,
-    add constraint specifies_item
-        foreign key (menuitem_id) references menuitem (menuitem_id)
-            on delete cascade on update cascade;
+# alter table order_item drop foreign key belongs_to_order;
+# alter table order_item drop foreign key specifies_item;
+#
+# alter table order_item
+#     add constraint belongs_to_order
+#         foreign key (order_id) references orders (order_id)
+#             on delete cascade on update cascade,
+#     add constraint specifies_item
+#         foreign key (menuitem_id) references menuitem (menuitem_id)
+#             on delete cascade on update cascade;
