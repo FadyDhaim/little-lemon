@@ -11,6 +11,8 @@
     at the end: fully dump the database
     mysqldump -u user -p --routines --triggers --events --databases little_lemon > little_lemon.sql
 
+    schema only
+    mysqldump -u user -p --no-data --routines --triggers --events --databases little_lemon > little_lemon_schema.sql 
 
 ## use python as a data client
     through it you can create prepared statements and procedures, queries and so on
