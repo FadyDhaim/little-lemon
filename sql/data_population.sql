@@ -55,6 +55,7 @@ values ('Mediterranean'),
        ('American'),
        ('Japanese');
 
+-- i've stolen these menu items as i'm not a food geek
 -- inserting menu items for each cuisine
 insert into menuitem (item_name, item_description, price, category, menu_id)
 values
@@ -104,10 +105,9 @@ values
 ('Green Tea', 'Traditional Japanese green tea', 4.00, 'Drinks', 4),
 ('Sake (Small)', 'Japanese rice wine', 7.00, 'Drinks', 4);
 
--- corrected bookings and orders
+-- here we do have some stuff as follows:
 --  2 bookings per customer, 2 orders per booking, 1 delivery order per customer.
 --  this means 16 bookings (8 customers * 2 bookings) and 40 orders (8 customers * (2 bookings * 2 orders + 1 delivery order)).
-
 
 -- inserting bookings (2 per customer)
 insert into booking (booking_slot, table_number, customer_id, employee_id, diners_count)
@@ -192,8 +192,7 @@ values
 -- order 40, delivery
 
 
--- inserting order items (example - you'd populate this based on the orders and menu items)
---  i've added a few examples, you'll need to expand this to cover a good portion of the 40 orders.
+-- inserting order items (you'd actually populate this based on what has actually been ordered in a single order)
 insert into order_item (order_id, menuitem_id, quantity, total_item_price)
 values (1, 1, 2, 15.98),   -- order 1: hummus x 2
        (1, 4, 1, 16.99),   -- order 1: moussaka
@@ -219,7 +218,7 @@ values (1, 1, 2, 15.98),   -- order 1: hummus x 2
        (18, 7, 1, 5.99),   -- order 18: greek yogurt with honey and walnuts
        (19, 9, 1, 4.50),   -- order 19: ouzo
        (20, 11, 1, 8.99),  -- order 20: guacamole with tortilla chips
-       (21, 14, 1, 12.50), -- order 21: beef tacos (3)
+       (21, 14, 1, 12.50), -- order 21: beef tacos
        (22, 16, 1, 5.50),  -- order 22: flan
        (23, 18, 2, 16.00), -- order 23: margarita
        (24, 21, 1, 13.50), -- order 24: classic cheeseburger
@@ -238,4 +237,4 @@ values (1, 1, 2, 15.98),   -- order 1: hummus x 2
        (37, 27, 1, 8.99),  -- order 37: chocolate brownie sundae
        (38, 30, 1, 7.00),  -- order 38: sake (small)
        (39, 33, 2, 15.98), -- order 39: salmon nigiri
-       (40, 1, 1, 7.99); -- order 40: hummus
+       (40, 1, 1, 7.99);   -- order 40: hummus

@@ -13,7 +13,7 @@ prepare get_customer_orders_details
     from '
 select order_id, sum(quantity), subtotal
 from orders
-    natural join order_item
+         natural join order_item
 where customer_id = ?
 group by orders.order_id, subtotal
 ';
@@ -77,10 +77,12 @@ end;
 
 call add_valid_booking(1, '2025-05-08 20:00:00', 5, 1);
 
--- can move in either scenarios:
--- the new slot is on the same day
--- the new slot is on a day when it doesn't conflict with an existing booking (table is not booked on that new slot)
 create procedure if not exists can_move_booking(in booking_identifier int, in to_slot datetime, out can_move bool)
+comment "
+can move in either scenarios:
+    1- the new slot is on the same day\n
+    2- the new slot is on a day when it doesn't conflict with an existing booking (table is not booked on that new slot)
+"
 begin
     declare old_slot_date date;
     declare table_no int;
@@ -110,8 +112,8 @@ begin
     end if;
 end;
 
--- deletes an existing booking record if it's not too late
 create procedure if not exists cancel_booking(in booking_identifier int, out did_cancel bool)
+comment 'deletes an existing booking record if not too late'
 begin
     declare existing_booking_slot datetime;
     select booking_slot

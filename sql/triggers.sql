@@ -9,7 +9,7 @@ begin
 end;
 
 
--- i believe this trigger is kinda not necessary, you might wanna delete orders of a booking and keep the booking itself
+-- i believe this trigger is kinda not necessary, you might wanna delete all the orders of a booking and still keep the booking itself
 create trigger if not exists after_delete_order_optional_booking_cleanup
     after delete
     on orders

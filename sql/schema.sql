@@ -91,16 +91,31 @@ create table order_item
     constraint specifies_item foreign key (menuitem_id) references menuitem (menuitem_id) on delete cascade on update cascade
 );
 
-# describe order_item;
-# show indexes from order_item;
 
-# alter table order_item drop foreign key belongs_to_order;
-# alter table order_item drop foreign key specifies_item;
-#
-# alter table order_item
-#     add constraint belongs_to_order
-#         foreign key (order_id) references orders (order_id)
-#             on delete cascade on update cascade,
-#     add constraint specifies_item
-#         foreign key (menuitem_id) references menuitem (menuitem_id)
-#             on delete cascade on update cascade;
+-- i commented these out because only after i'd already executed the ddl above did i add the inline on delete on update cascade statements to the order_item 2 foreign keys (order_id, menuitem_id)
+-- explanation below is for you to know some internals, optional though
+
+-- describe order_item;
+
+
+-- the first index, which is on order_id as the records themselves are sorted by order_id first, is a non-clustered index
+-- each order_id value points to an entire B tree namely the second index which is implicitly created on menuitem_id column, 
+-- this latter index is clustered, what i mean by this is that the entire row cells are within each node keyed by the menuitem_id, this includes the total_item_price and quantity ordered of that item.
+-- as a result, regarding querying performance, queries having either just the order id or both the order id and menu item id, are quite fast.
+-- on the other hand, queries only involing the menu item id won't be efficient as we don't know which B tree of menu items we should traverse (we don't know the order id to which these ordered items belong)
+-- show indexes from order_item;
+
+
+-- dropping these foreign keys don't actually drop the corresponding indices, i've only had to drop the keys to add them back with on delete / update cascade 
+
+-- alter table order_item drop foreign key belongs_to_order;
+-- alter table order_item drop foreign key specifies_item;
+
+--
+-- alter table order_item
+--     add constraint belongs_to_order
+--         foreign key (order_id) references orders (order_id)
+--             on delete cascade on update cascade,
+--     add constraint specifies_item
+--         foreign key (menuitem_id) references menuitem (menuitem_id)
+--             on delete cascade on update cascade;
