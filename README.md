@@ -1,15 +1,18 @@
 # Little Lemon CapStone Project
 
 ## data modeling
-    use draw.io / mysql workbench (modeling tool)
+    using draw.io / mysql workbench (modeling tool)
+    see the model folder
 
 ## implementing the model (DDL physical schema)
-    use data grip / mysql workbench (forward engineer)
+    using data grip / mysql workbench (forward engineer)
+    see the sql folder
 
 ## data population
     a bunch of batch insert sql statements
+    see the sql folder as well, anything related to sql code is there
 
-## SQL Queries (see sql files)
+## SQL Queries
     includes stored procedures and prepared statements regarding the:
     - requirements of the table booking system:
     1- checking whether or not a table is booked on a given booking slot
